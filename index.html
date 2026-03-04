@@ -84,12 +84,24 @@
             font-size: 1.1em;
             opacity: 0.95;
             margin-bottom: 5px;
+            color: white;
+        }
+        
+        .light-mode header p {
+            color: #1e3a8a;
+            opacity: 1;
         }
         
         .subtitle {
             font-size: 0.9em;
             opacity: 0.8;
             margin-top: 15px;
+            color: white;
+        }
+        
+        .light-mode .subtitle {
+            color: #1e40af;
+            opacity: 1;
         }
         
         nav {
@@ -146,6 +158,10 @@
         .content {
             padding: 40px;
             min-height: 500px;
+        }
+        
+        .light-mode .content {
+            background: white;
         }
         
         h2 {
@@ -340,6 +356,10 @@
             font-size: 1.05em;
         }
         
+        .light-mode .email-from {
+            color: #1e40af;
+        }
+        
         .email-subject {
             font-size: 1.1em;
             font-weight: 600;
@@ -500,6 +520,14 @@
             color: #1e40af;
         }
         
+        .info-section p, .info-section ul, .info-section li {
+            color: #cbd5e1;
+        }
+        
+        .light-mode .info-section p, .light-mode .info-section ul, .light-mode .info-section li {
+            color: #334155;
+        }
+        
         .info-section pre {
             background: #1e293b;
             color: #e2e8f0;
@@ -605,11 +633,19 @@
         
         .data-item .field-label {
             font-weight: 600;
+            color: #9ca3af;
+        }
+        
+        .light-mode .data-item .field-label {
             color: #6b7280;
         }
         
         .data-item .field-value {
-            color: #374151;
+            color: #e2e8f0;
+        }
+        
+        .light-mode .data-item .field-value {
+            color: #1f2937;
         }
         
         .clickable-room {
@@ -650,10 +686,20 @@
             border: 1px solid #065f46;
         }
         
+        .light-mode .test-result.pass {
+            background: #d1fae5;
+            border: 1px solid #6ee7b7;
+        }
+        
         .test-result.fail {
             background: #450a0a;
             border-left: 4px solid #ef4444;
             border: 1px solid #7f1d1d;
+        }
+        
+        .light-mode .test-result.fail {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
         }
         
         .test-result.warning {
