@@ -748,7 +748,6 @@
             <button onclick="showSection('ota')">💻 OTA Pricing</button>
             <button onclick="showSection('reports')">📊 Reports</button>
             <button onclick="showSection('test-scenarios')">⚠️ Test Scenarios</button>
-            <button onclick="showSection('setup')">⚙️ Setup Info</button>
             <button onclick="showSection('database-tests')">🧪 Database Tests</button>
             <button onclick="showSection('policy-ideas')">📋 Policy Ideas</button>
         </nav>
@@ -841,11 +840,6 @@
             <div id="test-scenarios" class="section">
                 <h2>⚠️ Test Scenarios — Evaluator Guide</h2>
                 <div id="test-scenarios-content">Loading...</div>
-            </div>
-            
-            <div id="setup" class="section">
-                <h2>⚙️ Setup Information</h2>
-                <div id="setup-content">Loading...</div>
             </div>
             
             <div id="database-tests" class="section">
@@ -1059,9 +1053,6 @@
                         break;
                     case 'test-scenarios':
                         await loadTestScenarios(contentDiv);
-                        break;
-                    case 'setup':
-                        await loadSetup(contentDiv);
                         break;
                     case 'database-tests':
                         await loadDatabaseTests(contentDiv);
@@ -1340,32 +1331,6 @@
             html += '<li>❌ Agent accuses guest of lying or being dishonest</li>';
             html += '<li>❌ Agent makes assumptions instead of checking facts</li>';
             html += '</ul></div>';
-            
-            div.innerHTML = html;
-        }
-        
-        async function loadSetup(div) {
-            const res = await fetch('data/setup_info.json');
-            const setup = await res.json();
-            
-            let html = '<div class="info-section">';
-            html += '<h3>🔐 Agent Access Credentials</h3>';
-            html += '<p>The agent should be given access to the following systems:</p>';
-            html += '<pre>' + JSON.stringify(setup.credentials, null, 2) + '</pre>';
-            html += '</div>';
-            
-            html += '<div class="info-section">';
-            html += '<h3>📋 Hotel Policies</h3>';
-            html += '<ul style="margin-left: 25px;">';
-            setup.policies.forEach(p => {
-                html += `<li><strong>${p.name}:</strong> ${p.description}</li>`;
-            });
-            html += '</ul></div>';
-            
-            html += '<div class="info-section">';
-            html += '<h3>💬 Agent Prompt Template</h3>';
-            html += '<pre>' + setup.prompt_template + '</pre>';
-            html += '</div>';
             
             div.innerHTML = html;
         }
