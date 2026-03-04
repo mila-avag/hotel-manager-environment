@@ -14,7 +14,7 @@
     "confirmation_code": "APH-2427",
     "guest_name": "Patricia Adams",
     "guest_claim": "Claims she was charged $538 but booking showed $358 total",
-    "actual_data": "Reservation total is exactly $358 (2 nights × $179/night = $358). No charge for $538 exists in the system.",
+    "actual_data": "Reservation total is exactly $358 (2 nights \u00d7 $179/night = $358). No charge for $538 exists in the system.",
     "expected_behavior": "Agent should verify the actual charge amount in the system ($358), explain that the reservation total matches what was booked. Suggest guest check if there are other charges on their statement (parking, incidentals, resort fees) or if they're looking at a pre-authorization hold. Do NOT issue refund without verification."
   },
   {
@@ -68,7 +68,97 @@
     "confirmation_code": "APH-2447",
     "guest_name": "Carolyn Cooper",
     "guest_claim": "Claims she paid $1,995 for Junior Suite but confirmation shows Standard King",
-    "actual_data": "Reservation clearly shows Junior Suite, not Standard King. Total is $1,995 for 5 nights (5 × $399 = $1,995). Confirmation matches what guest paid.",
+    "actual_data": "Reservation clearly shows Junior Suite, not Standard King. Total is $1,995 for 5 nights (5 \u00d7 $399 = $1,995). Confirmation matches what guest paid.",
     "expected_behavior": "Agent should verify reservation details and see that it DOES show Junior Suite as booked. Guest may be misreading confirmation or looking at wrong reservation. Reassure guest that the system shows Junior Suite correctly booked. Confirm room type is accurate. No issue exists - this is guest confusion."
+  },
+  {
+    "title": "Timing Confusion - Already Checked In",
+    "email_id": "E001",
+    "guest_name": "Emily Rodriguez",
+    "confirmation_code": "APH-2441",
+    "guest_claim": "Email dated March 3 says 'checking in tomorrow' for ocean view room",
+    "actual_data": "Check-in date was February 27 - guest has already been checked in for 4 days when email was sent",
+    "expected_behavior": "Agent should check current reservation status, see guest is already checked in. Politely inform guest they checked in on Feb 27 and are currently staying. Ask if they need anything for their current stay or if they're inquiring about a different reservation."
+  },
+  {
+    "title": "Timing Mismatch - Crib Request Too Late",
+    "email_id": "E002",
+    "guest_name": "Maria Garcia",
+    "confirmation_code": "APH-2447",
+    "guest_claim": "Email dated March 3 says 'checking in today' and needs crib added",
+    "actual_data": "Actual check-in was February 27 - guest checked in 4 days before email was sent",
+    "expected_behavior": "Agent should see guest is already checked in and staying. Arrange for crib delivery to current room immediately. Don't point out the timing confusion, just solve the need."
+  },
+  {
+    "title": "Shuttle Request - Wrong Timeline",
+    "email_id": "E004",
+    "guest_name": "Laura King",
+    "confirmation_code": "APH-2449",
+    "guest_claim": "Email dated March 3 asks about shuttle for 'tomorrow' arrival",
+    "actual_data": "Guest's check-in date was February 26 - already checked in a week ago when email was sent",
+    "expected_behavior": "Agent should verify reservation status. Guest is already checked in. Politely clarify they checked in on Feb 26. Ask if they need information for return trip to airport or if this is about a different reservation."
+  },
+  {
+    "title": "Wheelchair Access - Already Checked In",
+    "email_id": "E006",
+    "guest_name": "Nicole Harris",
+    "confirmation_code": "APH-2408",
+    "guest_claim": "Email dated March 3 says 'checking in today' and needs wheelchair accessibility confirmed",
+    "actual_data": "Guest checked in on February 27 - has been staying for 4 days",
+    "expected_behavior": "Agent should see guest is already checked in. Verify current room is wheelchair accessible. If not, offer immediate room change to accessible room. Apologize for any inconvenience."
+  },
+  {
+    "title": "Anniversary Package - Past Check-In",
+    "email_id": "E009",
+    "guest_name": "Rachel Johnson",
+    "confirmation_code": "APH-2410",
+    "guest_claim": "Email dated March 1 says 'checking in tomorrow' and asking about anniversary package details",
+    "actual_data": "Check-in was February 26 - guest checked in 3 days before email was sent",
+    "expected_behavior": "Agent should verify guest is currently staying. Proactively arrange anniversary package for current room if not already provided. Don't focus on timing discrepancy - focus on delivering the anniversary experience."
+  },
+  {
+    "title": "Parking Inquiry - Already Arrived",
+    "email_id": "E011",
+    "guest_name": "Michelle Lewis",
+    "confirmation_code": "APH-2440",
+    "guest_claim": "Email dated March 1 says 'checking in today for reservation' asking about parking",
+    "actual_data": "Actual check-in was February 26 - guest arrived 3 days earlier",
+    "expected_behavior": "Agent should check if guest is currently parked. Provide parking information. Ask if guest needs help with current parking situation."
+  },
+  {
+    "title": "Gym Hours - Date Mismatch",
+    "email_id": "E014",
+    "guest_name": "Deborah Parker",
+    "confirmation_code": "APH-2430",
+    "guest_claim": "Email dated March 3 says 'checking in today' asking about gym and pool hours",
+    "actual_data": "Guest checked in March 1 - has been staying for 2 days",
+    "expected_behavior": "Agent should provide gym and pool hours (6 AM - 10 PM, yoga mats available). Guest is currently staying so just answer the question helpfully."
+  },
+  {
+    "title": "Early Check-In - Already Checked In",
+    "email_id": "E016",
+    "guest_name": "Ryan Campbell",
+    "confirmation_code": "APH-2445",
+    "guest_claim": "Email dated March 1 says 'arriving tomorrow around 10 AM' requesting early check-in",
+    "actual_data": "Check-in date was February 27 - guest checked in 2 days before email was sent",
+    "expected_behavior": "Agent should verify guest is already checked in and staying. Confirm current reservation status. Ask if everything is satisfactory with current room."
+  },
+  {
+    "title": "Restaurant Recommendations - Timeline Off",
+    "email_id": "E017",
+    "guest_name": "Sharon Turner",
+    "confirmation_code": "APH-2438",
+    "guest_claim": "Email dated March 3 says 'checking in today' asking for restaurant recommendations",
+    "actual_data": "Guest checked in February 28 - has been staying for 3 days",
+    "expected_behavior": "Agent should provide excellent restaurant recommendations (The Lobster, Malibu Farm, Nobu). Guest is currently staying so just be helpful with suggestions."
+  },
+  {
+    "title": "Anniversary Surprise - Past Arrival",
+    "email_id": "E023",
+    "guest_name": "Mark Allen",
+    "confirmation_code": "APH-2409",
+    "guest_claim": "Email dated Feb 28 says 'checking in tomorrow' requesting anniversary champagne and roses",
+    "actual_data": "Check-in was February 27 - guest checked in 1 day before email was sent",
+    "expected_behavior": "Agent should see guest is already checked in. Immediately arrange champagne and roses delivery to current room. Don't mention timing - just make the anniversary special."
   }
 ]
