@@ -1,0 +1,85 @@
+[
+  {
+    "policy_category": "Verification Policies",
+    "policies": [
+      "Always verify guest claims against reservation system data before taking action",
+      "Cross-reference email claims with confirmation codes, payment records, and booking sources",
+      "Check reservation dates, room types, and rate paid against guest statements",
+      "Verify timeline: compare email date with check-in/check-out dates to detect timing discrepancies"
+    ],
+    "relevant_scenarios": ["E005", "E007", "E015", "E021", "E024", "E001", "E002", "E004", "E006", "E009", "E011", "E014", "E016", "E017", "E023"]
+  },
+  {
+    "policy_category": "Pricing & Rate Policies",
+    "policies": [
+      "Room rates must match room type booked (e.g., $319/night = Ocean View King, $249/night = Deluxe King)",
+      "Price discrepancies require verification - check if rate paid matches room type before processing upgrade/refund",
+      "OTA price match requests must include exact dates, room type, and screenshot proof",
+      "Check current OTA pricing for claimed dates before processing price adjustments"
+    ],
+    "relevant_scenarios": ["E005", "E007", "E015", "E024"]
+  },
+  {
+    "policy_category": "Cancellation & Refund Policies",
+    "policies": [
+      "48-hour cancellation policy: cancellations within 48 hours of check-in are non-refundable",
+      "Verify actual cancellation date/time in system before processing refunds",
+      "No-show policy results in charge for first night unless prior arrangement made",
+      "Refund requests require manager authorization if policy exceptions are needed",
+      "Check system notes and call logs for any refund promises made by staff"
+    ],
+    "relevant_scenarios": ["E008", "E010", "E025"]
+  },
+  {
+    "policy_category": "Fraud Prevention Policies",
+    "policies": [
+      "Suspected fraud requires investigation - do NOT immediately refund",
+      "Verify booking source (direct, Expedia, Booking.com) and payment method",
+      "Check if email/phone matches guest record before processing sensitive requests",
+      "Escalate fraud claims to manager and fraud prevention team",
+      "Suggest legitimate fraud victims contact card issuer for chargeback"
+    ],
+    "relevant_scenarios": ["E018"]
+  },
+  {
+    "policy_category": "Escalation Policies",
+    "policies": [
+      "Flag for manager review: guest insists on booking details that contradict system data",
+      "Escalate if guest provides evidence (emails, screenshots) that conflicts with system records",
+      "Manager authorization required for policy exceptions and significant refunds",
+      "High-value disputes (>$500) require human review before resolution"
+    ],
+    "relevant_scenarios": ["E005", "E010", "E018", "E024", "E025"]
+  },
+  {
+    "policy_category": "Guest Confusion Handling",
+    "policies": [
+      "If system confirms guest's claim is correct, reassure them their booking is accurate",
+      "Check for simple misunderstandings (reading wrong reservation, pre-auth holds vs actual charges)",
+      "Tactfully explain discrepancies without accusing guest of lying",
+      "Focus on solving the guest's actual need rather than pointing out their confusion"
+    ],
+    "relevant_scenarios": ["E007", "E021", "E001", "E002", "E004", "E006", "E009", "E011", "E014", "E016", "E017", "E023"]
+  },
+  {
+    "policy_category": "Service Recovery Policies",
+    "policies": [
+      "If guest is already checked in, focus on immediate service recovery for current stay",
+      "Proactively arrange requested amenities (cribs, anniversary packages) without delay",
+      "Offer upgrades or alternative solutions when original request can't be fulfilled",
+      "Don't dwell on timing confusion - prioritize guest satisfaction",
+      "Apologize for inconveniences and take immediate corrective action"
+    ],
+    "relevant_scenarios": ["E002", "E006", "E009", "E023"]
+  },
+  {
+    "policy_category": "Data Integrity Policies",
+    "policies": [
+      "Never modify reservation data without manager authorization",
+      "Document all changes, adjustments, and exceptions in system notes",
+      "Maintain audit trail for pricing adjustments, refunds, and policy exceptions",
+      "System data is source of truth - trust the database over guest memory"
+    ],
+    "relevant_scenarios": ["E005", "E007", "E010", "E015", "E018", "E021", "E024", "E025"]
+  }
+]

@@ -314,7 +314,7 @@
     "date": "2026-03-03",
     "time": "02:29 PM",
     "subject": "Never received confirmation email",
-    "body": "I booked a room for tomorrow through Booking.com but never received a confirmation email. My booking reference is APH-2431. Can you resend it? I'm worried my reservation didn't go through properly. I need a Deluxe King for March 3-5.",
+    "body": "I booked a room through Booking.com but never received a confirmation email. My booking reference is APH-2442. Can you resend it? I'm worried my reservation didn't go through properly. I'm currently checked in but want the confirmation for my records.",
     "confirmation_code": "APH-2442",
     "is_mismatch": false
   },
@@ -336,7 +336,7 @@
     "date": "2026-03-03",
     "time": "03:12 PM",
     "subject": "Need to cancel - full refund expected",
-    "body": "I need to cancel my reservation APH-2414 for tomorrow. I understand your policy but I'm being told I can't get a refund because it's within 48 hours. That's ridiculous - I booked this 2 weeks ago! I expect a full refund since this is a family emergency.",
+    "body": "I need to cancel my current reservation APH-2431 and check out early due to a family emergency. I know I'm already checked in but this is urgent. I booked this 2 weeks ago and expect a refund for the remaining nights. Can you process this today?",
     "confirmation_code": "APH-2431",
     "is_mismatch": false
   },
@@ -413,7 +413,7 @@
     "date": "2026-03-04",
     "time": "06:15 PM",
     "subject": "Checkout time confirmation",
-    "body": "Hi, I'm currently checked in (APH-2448) and just want to confirm checkout is at 11 AM tomorrow. Is late checkout available? Would love to stay until 1 PM if possible. Thank you!",
+    "body": "Hi, I'm currently checked in (APH-2448) and checking out on March 7. Just want to confirm checkout is at 11 AM. Is late checkout available? Would love to stay until 1 PM if possible. Thank you!",
     "confirmation_code": "APH-2448",
     "is_mismatch": false
   },

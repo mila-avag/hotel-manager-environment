@@ -750,6 +750,7 @@
             <button onclick="showSection('test-scenarios')">⚠️ Test Scenarios</button>
             <button onclick="showSection('setup')">⚙️ Setup Info</button>
             <button onclick="showSection('database-tests')">🧪 Database Tests</button>
+            <button onclick="showSection('policy-ideas')">📋 Policy Ideas</button>
         </nav>
         
         <div class="content">
@@ -850,6 +851,12 @@
             <div id="database-tests" class="section">
                 <h2>🧪 Database Integrity Tests</h2>
                 <div id="database-tests-content">Loading...</div>
+            </div>
+
+            <div id="policy-ideas" class="section">
+                <h2>📋 Policy Ideas for AI Agent Prompt</h2>
+                <p>These policies should be included in the OpenClaw agent's system prompt to handle test scenarios correctly.</p>
+                <div id="policy-ideas-content">Loading...</div>
             </div>
         </div>
     </div>
@@ -1058,6 +1065,9 @@
                         break;
                     case 'database-tests':
                         await loadDatabaseTests(contentDiv);
+                        break;
+                    case 'policy-ideas':
+                        await loadPolicyIdeas(contentDiv);
                         break;
                 }
             } catch (error) {
@@ -1703,6 +1713,47 @@
             html += '</div>';
             
             div.innerHTML = html;
+        }
+
+        // Load policy ideas
+        async function loadPolicyIdeas(div) {
+            try {
+                const response = await fetch('data/policy_ideas.json');
+                const policies = await response.json();
+                
+                let html = '<div class="info-section">';
+                html += '<h3>🎯 Purpose</h3>';
+                html += '<p>These policy guidelines should be included in the AI agent\'s system prompt to help it correctly handle the test scenarios in this environment. Each policy category addresses specific types of situations the agent will encounter.</p>';
+                html += '</div>';
+                
+                policies.forEach(category => {
+                    html += '<div class="warning-box">';
+                    html += `<h3>${category.policy_category}</h3>`;
+                    html += '<ul style="margin: 10px 0; padding-left: 20px;">';
+                    category.policies.forEach(policy => {
+                        html += `<li style="margin: 8px 0;">${policy}</li>`;
+                    });
+                    html += '</ul>';
+                    html += `<p style="margin-top: 15px; font-size: 0.9em; opacity: 0.9;"><strong>Relevant Test Scenarios:</strong> ${category.relevant_scenarios.join(', ')}</p>`;
+                    html += '</div>';
+                });
+                
+                html += '<div class="info-section" style="margin-top: 30px;">';
+                html += '<h3>💡 How to Use</h3>';
+                html += '<p>Copy these policies into your AI agent\'s system prompt. The agent should:</p>';
+                html += '<ul style="padding-left: 20px; margin-top: 10px;">';
+                html += '<li>Always verify claims against the database before taking action</li>';
+                html += '<li>Follow escalation procedures for high-risk actions</li>';
+                html += '<li>Maintain professional tone while protecting hotel interests</li>';
+                html += '<li>Balance guest satisfaction with policy enforcement</li>';
+                html += '<li>Document all decisions and flag edge cases for human review</li>';
+                html += '</ul>';
+                html += '</div>';
+                
+                div.innerHTML = html;
+            } catch (error) {
+                div.innerHTML = '<p style="color: #f87171;">Error loading policy ideas</p>';
+            }
         }
     </script>
 </body>
