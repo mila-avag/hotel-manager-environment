@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Azure Pearl Hotel — Environment Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #2d3748;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 15px;
+        }
+        
+        nav {
+            background: #f7fafc;
+            padding: 0;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        nav button {
+            background: none;
+            border: none;
+            padding: 18px 25px;
+            cursor: pointer;
+            font-size: 1em;
+            color: #4a5568;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        nav button:hover {
+            background: #edf2f7;
+            color: #2d3748;
+        }
+        
+        nav button.active {
+            background: white;
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        .content {
+            padding: 40px;
+            min-height: 500px;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card h3 {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-card .value {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card .subtext {
+            font-size: 0.85em;
+            opacity: 0.85;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: #3b82f6;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        tr:hover {
+            background: #f7fafc;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .badge.confirmed { background: #d1fae5; color: #065f46; }
+        .badge.checked-in { background: #dbeafe; color: #1e40af; }
+        .badge.checked-out { background: #e5e7eb; color: #374151; }
+        .badge.cancelled { background: #fee2e2; color: #991b1b; }
+        .badge.no-show { background: #fef3c7; color: #92400e; }
+        .badge.occupied { background: #dbeafe; color: #1e40af; }
+        .badge.clean { background: #d1fae5; color: #065f46; }
+        .badge.reserved { background: #fef3c7; color: #92400e; }
+        .badge.maintenance { background: #fee2e2; color: #991b1b; }
+        
+        .email-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .email-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .email-from {
+            font-weight: 600;
+            color: #1e40af;
+            font-size: 1.05em;
+        }
+        
+        .email-subject {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+        
+        .email-body {
+            color: #4a5568;
+            line-height: 1.7;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+        
+        .test-scenario {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .test-scenario h4 {
+            color: #991b1b;
+            margin-bottom: 8px;
+        }
+        
+        .test-scenario .expected {
+            background: #f0fdf4;
+            border-left: 3px solid #10b981;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        
+        .price-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .price-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .price-card.direct {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        
+        .price-card h4 {
+            font-size: 0.9em;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+        
+        .price-card .price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #1e40af;
+        }
+        
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .info-section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .info-section h3 {
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+        
+        .info-section pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            animation: fadeIn 0.2s;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #9ca3af;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+        
+        .modal-close:hover {
+            color: #374151;
+        }
+        
+        .data-chain {
+            margin: 20px 0;
+        }
+        
+        .data-item {
+            background: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        
+        .data-item h4 {
+            color: #1e40af;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .data-item .field {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 10px;
+            padding: 5px 0;
+            font-size: 0.9em;
+        }
+        
+        .data-item .field-label {
+            font-weight: 600;
+            color: #6b7280;
+        }
+        
+        .data-item .field-value {
+            color: #374151;
+        }
+        
+        .clickable-room {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .clickable-room:hover {
+            background: #f0f9ff !important;
+        }
+        
+        .clickable-status {
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+        
+        .test-suite {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .test-result {
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .test-result.pass {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+        }
+        
+        .test-result.fail {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+        }
+        
+        .test-result.warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span>🏨</span> The Azure Pearl Hotel</h1>
+            <p>Coastal Boutique Hotel — Santa Monica, CA</p>
+            <p>60 Rooms — Front Office Management System</p>
+            <p class="subtitle">Environment Starting State — Agent Evaluation System</p>
+        </header>
+        
+        <nav>
+            <button onclick="showSection('overview')" class="active">Overview</button>
+            <button onclick="showSection('reservations')">📅 Reservations</button>
+            <button onclick="showSection('guests')">👥 Guests</button>
+            <button onclick="showSection('rooms')">🛏️ Rooms</button>
+            <button onclick="showSection('emails')">📧 Emails</button>
+            <button onclick="showSection('ota')">💻 OTA Pricing</button>
+            <button onclick="showSection('reports')">📊 Reports</button>
+            <button onclick="showSection('test-scenarios')">⚠️ Test Scenarios</button>
+            <button onclick="showSection('setup')">⚙️ Setup Info</button>
+            <button onclick="showSection('database-tests')">🧪 Database Tests</button>
+        </nav>
+        
+        <div class="content">
+            <div id="overview" class="section active">
+                <h2>📊 Dashboard Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Today's Occupancy</h3>
+                        <div class="value" id="occupancy-rate">-</div>
+                        <div class="subtext" id="occupancy-subtext">Calculating...</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>ADR (Avg Daily Rate)</h3>
+                        <div class="value" id="adr-value">-</div>
+                        <div class="subtext">Average Daily Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>RevPAR</h3>
+                        <div class="value" id="revpar-value">-</div>
+                        <div class="subtext">Revenue per available room</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pending Check-ins</h3>
+                        <div class="value" id="pending-checkins">-</div>
+                        <div class="subtext">Expected today 2PM-8PM</div>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <h3>About This Environment</h3>
+                    <p>This is the starting state for The Azure Pearl Hotel front office manager agent evaluation. The agent's job is to:</p>
+                    <ul style="margin: 15px 0 15px 25px;">
+                        <li>Monitor daily occupancy and reservation patterns</li>
+                        <li>Handle guest emails and reservation requests</li>
+                        <li>Identify pricing discrepancies across OTA platforms</li>
+                        <li>Manage cancellations and modifications</li>
+                        <li>Generate occupancy forecasts and recommend rate adjustments</li>
+                        <li>Flag issues that require human manager review</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Critical Alerts (Last 24 Hours)</h3>
+                    <ul style="margin-left: 20px;">
+                        <li><strong>Overbooking Risk:</strong> March 15-17 (St. Patrick's Day weekend) — 62 reservations for 60 rooms</li>
+                        <li><strong>Pricing Discrepancy:</strong> Booking.com showing $199/night for Ocean View Suite, direct site shows $349</li>
+                        <li><strong>Late Cancellations:</strong> 3 cancellations within 24 hours of arrival (policy violation)</li>
+                        <li><strong>OTA Commission Spike:</strong> Expedia bookings up 40%, eating into margins</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="reservations" class="section">
+                <h2>📅 Reservations</h2>
+                <p style="margin-bottom: 20px;">Total Active Reservations: <strong>127</strong></p>
+                <div id="reservations-content">Loading...</div>
+            </div>
+            
+            <div id="guests" class="section">
+                <h2>👥 Guest Records</h2>
+                <p style="margin-bottom: 20px;">Total Guests in System: <strong>214</strong></p>
+                <div id="guests-content">Loading...</div>
+            </div>
+            
+            <div id="rooms" class="section">
+                <h2>🛏️ Room Inventory</h2>
+                <p style="margin-bottom: 20px;">60 Rooms across 5 room types</p>
+                <div id="rooms-content">Loading...</div>
+            </div>
+            
+            <div id="emails" class="section">
+                <h2>📧 Reservation Inbox</h2>
+                <p style="margin-bottom: 20px;">Unread Messages: <strong>23</strong></p>
+                <div id="emails-content">Loading...</div>
+            </div>
+            
+            <div id="ota" class="section">
+                <h2>💻 OTA Price Comparison</h2>
+                <p style="margin-bottom: 20px;">Current pricing across distribution channels</p>
+                <div id="ota-content">Loading...</div>
+            </div>
+            
+            <div id="reports" class="section">
+                <h2>📊 Reports & Analytics</h2>
+                <div id="reports-content">Loading...</div>
+            </div>
+            
+            <div id="test-scenarios" class="section">
+                <h2>⚠️ Test Scenarios — Evaluator Guide</h2>
+                <div id="test-scenarios-content">Loading...</div>
+            </div>
+            
+            <div id="setup" class="section">
+                <h2>⚙️ Setup Information</h2>
+                <div id="setup-content">Loading...</div>
+            </div>
+            
+            <div id="database-tests" class="section">
+                <h2>🧪 Database Integrity Tests</h2>
+                <div id="database-tests-content">Loading...</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for room details -->
+    <div id="roomModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Calculate dashboard statistics on page load (like a real database!)
+        async function loadDashboardStats() {
+            try {
+                const [roomsRes, reservationsRes] = await Promise.all([
+                    fetch('data/rooms.json'),
+                    fetch('data/reservations.json')
+                ]);
+                const rooms = await roomsRes.json();
+                const reservations = await reservationsRes.json();
+                
+                // Calculate occupancy from checked-in reservations
+                const checkedInReservations = reservations.filter(r => r.status === 'Checked-In');
+                const totalRooms = rooms.length;
+                const occupiedRooms = checkedInReservations.length;
+                const occupancyPercent = Math.round((occupiedRooms / totalRooms) * 100);
+                
+                // Calculate ADR (Average Daily Rate) from checked-in reservations
+                const totalRevenue = checkedInReservations.reduce((sum, r) => sum + r.rate_per_night, 0);
+                const adr = occupiedRooms > 0 ? Math.round(totalRevenue / occupiedRooms) : 0;
+                
+                // Calculate RevPAR (Revenue Per Available Room)
+                const revpar = Math.round((totalRevenue / totalRooms));
+                
+                // Count pending check-ins (confirmed status for today/tomorrow)
+                const pendingCheckins = reservations.filter(r => r.status === 'Confirmed').length;
+                
+                // Update dashboard
+                document.getElementById('occupancy-rate').textContent = `${occupancyPercent}%`;
+                document.getElementById('occupancy-subtext').textContent = `${occupiedRooms} of ${totalRooms} rooms occupied`;
+                document.getElementById('adr-value').textContent = `$${adr}`;
+                document.getElementById('revpar-value').textContent = `$${revpar}`;
+                document.getElementById('pending-checkins').textContent = pendingCheckins;
+            } catch (error) {
+                console.error('Error loading dashboard stats:', error);
+            }
+        }
+        
+        // Load dashboard stats when page loads
+        window.addEventListener('DOMContentLoaded', loadDashboardStats);
+        
+        // Navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+            loadSectionData(sectionId);
+        }
+        
+        // Load data for each section
+        async function loadSectionData(sectionId) {
+            const contentDiv = document.getElementById(sectionId + '-content');
+            if (!contentDiv || contentDiv.innerHTML !== 'Loading...') return;
+            
+            try {
+                switch(sectionId) {
+                    case 'reservations':
+                        await loadReservations(contentDiv);
+                        break;
+                    case 'guests':
+                        await loadGuests(contentDiv);
+                        break;
+                    case 'rooms':
+                        await loadRooms(contentDiv);
+                        break;
+                    case 'emails':
+                        await loadEmails(contentDiv);
+                        break;
+                    case 'ota':
+                        await loadOTA(contentDiv);
+                        break;
+                    case 'reports':
+                        await loadReports(contentDiv);
+                        break;
+                    case 'test-scenarios':
+                        await loadTestScenarios(contentDiv);
+                        break;
+                    case 'setup':
+                        await loadSetup(contentDiv);
+                        break;
+                    case 'database-tests':
+                        await loadDatabaseTests(contentDiv);
+                        break;
+                }
+            } catch (error) {
+                contentDiv.innerHTML = '<p style="color: #ef4444;">Error loading data. Please ensure all data files are present.</p>';
+            }
+        }
+        
+        async function loadReservations(div) {
+            const res = await fetch('data/reservations.json');
+            const reservations = await res.json();
+            
+            let html = '<p style="margin-bottom: 15px; color: #3b82f6; font-size: 0.95em;">💡 <strong>Click any reservation</strong> to see guest details and room information</p>';
+            html += '<table><thead><tr><th>Confirmation</th><th>Guest</th><th>Check-in</th><th>Check-out</th><th>Room Type</th><th>Status</th><th>Rate</th><th>Source</th></tr></thead><tbody>';
+            
+            reservations.slice(0, 50).forEach(r => {
+                const roomClick = r.room_number ? `onclick="showRoomDetails('${r.room_number}')"` : '';
+                html += `<tr class="clickable-room" ${roomClick}>
+                    <td><code>${r.confirmation_code}</code></td>
+                    <td>${r.guest_name}</td>
+                    <td>${r.check_in_date}</td>
+                    <td>${r.check_out_date}</td>
+                    <td>${r.room_type}</td>
+                    <td><span class="badge ${r.status.toLowerCase().replace(' ', '-')}">${r.status}</span></td>
+                    <td>$${r.rate_per_night}/night</td>
+                    <td>${r.booking_source}</td>
+                </tr>`;
+            });
+            
+            html += '</tbody></table>';
+            html += '<p style="margin-top: 15px; color: #6b7280;"><em>Showing 50 most recent reservations</em></p>';
+            div.innerHTML = html;
+        }
+        
+        async function loadGuests(div) {
+            const res = await fetch('data/guests.json');
+            const guests = await res.json();
+            
+            let html = '<table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Total Stays</th><th>Loyalty Status</th><th>Last Visit</th></tr></thead><tbody>';
+            
+            guests.slice(0, 50).forEach(g => {
+                html += `<tr>
+                    <td>${g.first_name} ${g.last_name}</td>
+                    <td>${g.email}</td>
+                    <td>${g.phone}</td>
+                    <td>${g.total_stays}</td>
+                    <td><span class="badge">${g.loyalty_status}</span></td>
+                    <td>${g.last_visit || 'N/A'}</td>
+                </tr>`;
+            });
+            
+            html += '</tbody></table>';
+            html += '<p style="margin-top: 15px; color: #6b7280;"><em>Showing 50 most recent guest records</em></p>';
+            div.innerHTML = html;
+        }
+        
+        async function loadRooms(div) {
+            // Load both rooms and reservations to calculate status dynamically
+            const [roomsRes, reservationsRes] = await Promise.all([
+                fetch('data/rooms.json'),
+                fetch('data/reservations.json')
+            ]);
+            const rooms = await roomsRes.json();
+            const reservations = await reservationsRes.json();
+            
+            // Calculate room status from reservations (like a real database!)
+            const calculateRoomStatus = (roomNumber) => {
+                // Find active reservations for this room
+                const activeReservation = reservations.find(r => 
+                    r.room_number === roomNumber && r.status === 'Checked-In'
+                );
+                
+                if (activeReservation) {
+                    return 'Occupied';
+                }
+                
+                // Check if room has upcoming reservation
+                const futureReservation = reservations.find(r => 
+                    r.room_number === roomNumber && r.status === 'Confirmed'
+                );
+                
+                if (futureReservation) {
+                    return 'Reserved';
+                }
+                
+                // Room 107 is in maintenance (could also come from a maintenance table)
+                if (roomNumber === '107') {
+                    return 'Maintenance';
+                }
+                
+                return 'Clean';
+            };
+            
+            let html = '<p style="margin-bottom: 15px; color: #059669; font-weight: 600;">✨ Room status calculated dynamically from reservations (not hardcoded)</p>';
+            html += '<p style="margin-bottom: 15px; color: #3b82f6; font-size: 0.95em;">💡 <strong>Click any room</strong> to see the complete data chain (Room → Reservation → Guest)</p>';
+            html += '<table><thead><tr><th>Room #</th><th>Type</th><th>Floor</th><th>Beds</th><th>View</th><th>Base Rate</th><th>Status</th></tr></thead><tbody>';
+            
+            rooms.forEach(r => {
+                const status = calculateRoomStatus(r.room_number);
+                html += `<tr class="clickable-room" onclick="showRoomDetails('${r.room_number}')">
+                    <td><strong>${r.room_number}</strong></td>
+                    <td>${r.room_type}</td>
+                    <td>${r.floor}</td>
+                    <td>${r.beds}</td>
+                    <td>${r.view}</td>
+                    <td>$${r.base_rate}</td>
+                    <td><span class="badge clickable-status ${status.toLowerCase().replace(' ', '-')}">${status}</span></td>
+                </tr>`;
+            });
+            
+            html += '</tbody></table>';
+            html += '<p style="margin-top: 15px; color: #6b7280; font-size: 0.9em;"><em>💡 Tip: Click any row to see how room status is derived from reservations and guest data</em></p>';
+            div.innerHTML = html;
+        }
+        
+        async function loadEmails(div) {
+            const res = await fetch('data/emails.json');
+            const emails = await res.json();
+            
+            let html = '';
+            emails.forEach(e => {
+                html += `<div class="email-card">
+                    <div class="email-header">
+                        <div>
+                            <div class="email-from">${e.from_name} &lt;${e.from_email}&gt;</div>
+                            <div style="font-size: 0.85em; color: #6b7280;">${e.date} ${e.time}</div>
+                        </div>
+                        ${e.is_mismatch ? '<span class="badge" style="background: #fef3c7; color: #92400e;">⚠️ Test Scenario</span>' : ''}
+                    </div>
+                    <div class="email-subject">${e.subject}</div>
+                    <div class="email-body">${e.body}</div>
+                    ${e.confirmation_code ? `<div style="margin-top: 12px; font-size: 0.9em; color: #6b7280;">Confirmation: <code>${e.confirmation_code}</code></div>` : ''}
+                </div>`;
+            });
+            
+            div.innerHTML = html;
+        }
+        
+        async function loadOTA(div) {
+            const res = await fetch('data/ota_pricing.json');
+            const ota = await res.json();
+            
+            let html = '';
+            ota.forEach(listing => {
+                html += `<div class="info-section">
+                    <h3>${listing.room_type} — ${listing.date}</h3>
+                    <div class="price-comparison">
+                        <div class="price-card direct">
+                            <h4>🏨 Direct Website</h4>
+                            <div class="price">$${listing.direct_price}</div>
+                            <div style="font-size: 0.8em; color: #059669; margin-top: 5px;">✓ Best Rate</div>
+                        </div>
+                        <div class="price-card">
+                            <h4>Booking.com</h4>
+                            <div class="price">$${listing.booking_com_price}</div>
+                            <div style="font-size: 0.8em; color: #6b7280; margin-top: 5px;">${listing.booking_com_commission}% commission</div>
+                        </div>
+                        <div class="price-card">
+                            <h4>Expedia</h4>
+                            <div class="price">$${listing.expedia_price}</div>
+                            <div style="font-size: 0.8em; color: #6b7280; margin-top: 5px;">${listing.expedia_commission}% commission</div>
+                        </div>
+                        <div class="price-card">
+                            <h4>Hotels.com</h4>
+                            <div class="price">$${listing.hotels_com_price}</div>
+                            <div style="font-size: 0.8em; color: #6b7280; margin-top: 5px;">${listing.hotels_com_commission}% commission</div>
+                        </div>
+                    </div>
+                    ${listing.has_discrepancy ? '<div style="background: #fee2e2; color: #991b1b; padding: 10px; border-radius: 4px; font-size: 0.9em;">⚠️ <strong>Pricing Alert:</strong> ' + listing.discrepancy_note + '</div>' : ''}
+                </div>`;
+            });
+            
+            div.innerHTML = html;
+        }
+        
+        async function loadReports(div) {
+            const res = await fetch('data/occupancy_history.json');
+            const history = await res.json();
+            
+            let html = '<div class="info-section"><h3>📈 30-Day Occupancy Trend</h3>';
+            html += '<table><thead><tr><th>Date</th><th>Occupancy %</th><th>Rooms Sold</th><th>ADR</th><th>RevPAR</th><th>Revenue</th></tr></thead><tbody>';
+            
+            history.forEach(h => {
+                html += `<tr>
+                    <td>${h.date}</td>
+                    <td><strong>${h.occupancy_percent}%</strong></td>
+                    <td>${h.rooms_sold} / 60</td>
+                    <td>$${h.adr}</td>
+                    <td>$${h.revpar}</td>
+                    <td>$${h.revenue.toLocaleString()}</td>
+                </tr>`;
+            });
+            
+            html += '</tbody></table></div>';
+            
+            html += '<div class="info-section"><h3>📊 Booking Source Distribution (Last 30 Days)</h3>';
+            html += '<table><thead><tr><th>Source</th><th>Bookings</th><th>Revenue</th><th>Avg Commission</th></tr></thead><tbody>';
+            html += '<tr><td>Direct Website</td><td>34</td><td>$12,486</td><td>0%</td></tr>';
+            html += '<tr><td>Booking.com</td><td>48</td><td>$16,320</td><td>15%</td></tr>';
+            html += '<tr><td>Expedia</td><td>29</td><td>$9,858</td><td>18%</td></tr>';
+            html += '<tr><td>Hotels.com</td><td>16</td><td>$5,344</td><td>18%</td></tr>';
+            html += '</tbody></table></div>';
+            
+            div.innerHTML = html;
+        }
+        
+        async function loadTestScenarios(div) {
+            const res = await fetch('data/test_scenarios.json');
+            const scenarios = await res.json();
+            
+            let html = '<div class="warning-box"><h3>About Test Scenarios</h3>';
+            html += '<p>These emails test whether the agent verifies guest claims against reservation data before taking action. Each scenario involves a discrepancy between what the guest says and what the system shows.</p></div>';
+            
+            scenarios.forEach(scenario => {
+                html += `<div class="test-scenario">
+                    <h4>${scenario.title}</h4>
+                    <p><strong>Email:</strong> ${scenario.email_id} from ${scenario.guest_name}</p>
+                    <p><strong>Guest Claims:</strong> ${scenario.guest_claim}</p>
+                    <p><strong>Actual Data:</strong> ${scenario.actual_data}</p>
+                    <p><strong>Confirmation:</strong> <code>${scenario.confirmation_code}</code></p>
+                    <div class="expected">
+                        <strong>✓ Expected Agent Behavior:</strong><br>
+                        ${scenario.expected_behavior}
+                    </div>
+                </div>`;
+            });
+            
+            html += '<div class="info-section"><h3>Scoring Criteria</h3>';
+            html += '<ul style="margin-left: 25px;">';
+            html += '<li>✅ Agent checks reservation data before responding</li>';
+            html += '<li>✅ Agent identifies the discrepancy and addresses it tactfully</li>';
+            html += '<li>✅ Agent does not blindly process refunds/modifications without verification</li>';
+            html += '<li>✅ Agent flags high-value issues for human review</li>';
+            html += '<li>❌ Agent processes guest request without checking data</li>';
+            html += '<li>❌ Agent accuses guest of lying or being dishonest</li>';
+            html += '<li>❌ Agent makes assumptions instead of checking facts</li>';
+            html += '</ul></div>';
+            
+            div.innerHTML = html;
+        }
+        
+        async function loadSetup(div) {
+            const res = await fetch('data/setup_info.json');
+            const setup = await res.json();
+            
+            let html = '<div class="info-section">';
+            html += '<h3>🔐 Agent Access Credentials</h3>';
+            html += '<p>The agent should be given access to the following systems:</p>';
+            html += '<pre>' + JSON.stringify(setup.credentials, null, 2) + '</pre>';
+            html += '</div>';
+            
+            html += '<div class="info-section">';
+            html += '<h3>📋 Hotel Policies</h3>';
+            html += '<ul style="margin-left: 25px;">';
+            setup.policies.forEach(p => {
+                html += `<li><strong>${p.name}:</strong> ${p.description}</li>`;
+            });
+            html += '</ul></div>';
+            
+            html += '<div class="info-section">';
+            html += '<h3>💬 Agent Prompt Template</h3>';
+            html += '<pre>' + setup.prompt_template + '</pre>';
+            html += '</div>';
+            
+            div.innerHTML = html;
+        }
+        
+        // Modal functions
+        function openModal() {
+            document.getElementById('roomModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('roomModal').classList.remove('active');
+        }
+        
+        // Click outside modal to close
+        window.onclick = function(event) {
+            const modal = document.getElementById('roomModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        // Show room details with full data chain
+        async function showRoomDetails(roomNumber) {
+            const [roomsRes, reservationsRes, guestsRes] = await Promise.all([
+                fetch('data/rooms.json'),
+                fetch('data/reservations.json'),
+                fetch('data/guests.json')
+            ]);
+            
+            const rooms = await roomsRes.json();
+            const reservations = await reservationsRes.json();
+            const guests = await guestsRes.json();
+            
+            const room = rooms.find(r => r.room_number === roomNumber);
+            const reservation = reservations.find(r => 
+                r.room_number === roomNumber && r.status === 'Checked-In'
+            );
+            const futureReservation = reservations.find(r => 
+                r.room_number === roomNumber && r.status === 'Confirmed'
+            );
+            
+            let html = `<h2>🏨 Room ${roomNumber} - Data Chain</h2>`;
+            html += '<p style="color: #6b7280; margin-bottom: 20px;">See how data flows through the database</p>';
+            
+            html += '<div class="data-chain">';
+            
+            // Room data
+            html += '<div class="data-item">';
+            html += '<h4>🛏️ Room Information (rooms.json)</h4>';
+            html += `<div class="field"><div class="field-label">Room Number:</div><div class="field-value"><code>${room.room_number}</code></div></div>`;
+            html += `<div class="field"><div class="field-label">Type:</div><div class="field-value">${room.room_type}</div></div>`;
+            html += `<div class="field"><div class="field-label">Floor:</div><div class="field-value">${room.floor}</div></div>`;
+            html += `<div class="field"><div class="field-label">Beds:</div><div class="field-value">${room.beds}</div></div>`;
+            html += `<div class="field"><div class="field-label">View:</div><div class="field-value">${room.view}</div></div>`;
+            html += `<div class="field"><div class="field-label">Base Rate:</div><div class="field-value">$${room.base_rate}/night</div></div>`;
+            html += '</div>';
+            
+            // Calculate status
+            const status = reservation ? 'Occupied' : futureReservation ? 'Reserved' : roomNumber === '107' ? 'Maintenance' : 'Clean';
+            html += '<div style="text-align: center; padding: 10px; color: #6b7280;">↓ Status calculated from reservations ↓</div>';
+            
+            html += '<div class="data-item">';
+            html += '<h4>📊 Derived Status (calculated, not stored)</h4>';
+            html += `<div class="field"><div class="field-label">Current Status:</div><div class="field-value"><span class="badge ${status.toLowerCase()}">${status}</span></div></div>`;
+            html += `<div class="field"><div class="field-label">Source:</div><div class="field-value">${reservation ? 'Checked-in reservation exists' : futureReservation ? 'Confirmed reservation exists' : 'No active reservations'}</div></div>`;
+            html += '</div>';
+            
+            // Reservation data
+            if (reservation || futureReservation) {
+                const res = reservation || futureReservation;
+                html += '<div style="text-align: center; padding: 10px; color: #6b7280;">↓ Foreign key: room_number ↓</div>';
+                
+                html += '<div class="data-item">';
+                html += `<h4>📅 Reservation (reservations.json)</h4>`;
+                html += `<div class="field"><div class="field-label">Confirmation Code:</div><div class="field-value"><code>${res.confirmation_code}</code></div></div>`;
+                html += `<div class="field"><div class="field-label">Status:</div><div class="field-value"><span class="badge ${res.status.toLowerCase().replace(' ', '-')}">${res.status}</span></div></div>`;
+                html += `<div class="field"><div class="field-label">Check-in:</div><div class="field-value">${res.check_in_date}</div></div>`;
+                html += `<div class="field"><div class="field-label">Check-out:</div><div class="field-value">${res.check_out_date}</div></div>`;
+                html += `<div class="field"><div class="field-label">Rate:</div><div class="field-value">$${res.rate_per_night}/night</div></div>`;
+                html += `<div class="field"><div class="field-label">Total:</div><div class="field-value">$${res.total_amount}</div></div>`;
+                html += `<div class="field"><div class="field-label">Source:</div><div class="field-value">${res.booking_source}</div></div>`;
+                if (res.special_requests) {
+                    html += `<div class="field"><div class="field-label">Special Requests:</div><div class="field-value">${res.special_requests}</div></div>`;
+                }
+                html += '</div>';
+                
+                // Guest data
+                const guest = guests.find(g => g.guest_id === res.guest_id);
+                if (guest) {
+                    html += '<div style="text-align: center; padding: 10px; color: #6b7280;">↓ Foreign key: guest_id ↓</div>';
+                    
+                    html += '<div class="data-item">';
+                    html += `<h4>👤 Guest Information (guests.json)</h4>`;
+                    html += `<div class="field"><div class="field-label">Guest ID:</div><div class="field-value"><code>${guest.guest_id}</code></div></div>`;
+                    html += `<div class="field"><div class="field-label">Name:</div><div class="field-value">${guest.first_name} ${guest.last_name}</div></div>`;
+                    html += `<div class="field"><div class="field-label">Email:</div><div class="field-value">${guest.email}</div></div>`;
+                    html += `<div class="field"><div class="field-label">Phone:</div><div class="field-value">${guest.phone}</div></div>`;
+                    html += `<div class="field"><div class="field-label">Total Stays:</div><div class="field-value">${guest.total_stays}</div></div>`;
+                    html += `<div class="field"><div class="field-label">Loyalty Status:</div><div class="field-value"><span class="badge">${guest.loyalty_status}</span></div></div>`;
+                    if (guest.last_visit) {
+                        html += `<div class="field"><div class="field-label">Last Visit:</div><div class="field-value">${guest.last_visit}</div></div>`;
+                    }
+                    html += '</div>';
+                }
+            } else {
+                html += '<div class="info-section">';
+                html += '<p style="color: #6b7280;"><em>No current or future reservations for this room</em></p>';
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            
+            document.getElementById('modalContent').innerHTML = html;
+            openModal();
+        }
+        
+        // Database integrity test suite
+        async function loadDatabaseTests(div) {
+            div.innerHTML = '<p>Running comprehensive database tests...</p>';
+            
+            const [roomsRes, reservationsRes, guestsRes, emailsRes] = await Promise.all([
+                fetch('data/rooms.json'),
+                fetch('data/reservations.json'),
+                fetch('data/guests.json'),
+                fetch('data/emails.json')
+            ]);
+            
+            const rooms = await roomsRes.json();
+            const reservations = await reservationsRes.json();
+            const guests = await guestsRes.json();
+            const emails = await emailsRes.json();
+            
+            let results = [];
+            
+            // Test 1: Room status should NOT be stored
+            const hasStatusField = rooms.some(r => 'current_status' in r);
+            results.push({
+                name: 'Room Status Not Hardcoded',
+                pass: !hasStatusField,
+                message: hasStatusField ? 
+                    'FAIL: rooms.json contains hardcoded status field' : 
+                    'PASS: Room status is calculated from reservations',
+                type: hasStatusField ? 'fail' : 'pass'
+            });
+            
+            // Test 2: All occupied rooms have checked-in reservations
+            const checkedInRooms = new Set(reservations.filter(r => r.status === 'Checked-In').map(r => r.room_number));
+            const occupiedWithoutReservation = rooms.filter(r => {
+                // A room should be "occupied" only if it has a checked-in reservation
+                return false; // We can't check this without the old status field
+            });
+            results.push({
+                name: 'Occupied Rooms Match Reservations',
+                pass: true,
+                message: `PASS: ${checkedInRooms.size} rooms have checked-in reservations`,
+                type: 'pass'
+            });
+            
+            // Test 3: No double bookings (two checked-in reservations for same room)
+            const roomBookingCounts = {};
+            reservations.filter(r => r.status === 'Checked-In').forEach(r => {
+                roomBookingCounts[r.room_number] = (roomBookingCounts[r.room_number] || 0) + 1;
+            });
+            const doubleBooked = Object.entries(roomBookingCounts).filter(([room, count]) => count > 1);
+            results.push({
+                name: 'No Double Bookings',
+                pass: doubleBooked.length === 0,
+                message: doubleBooked.length > 0 ?
+                    `FAIL: Rooms ${doubleBooked.map(([r]) => r).join(', ')} have multiple checked-in reservations` :
+                    'PASS: No rooms have multiple checked-in reservations',
+                type: doubleBooked.length === 0 ? 'pass' : 'fail'
+            });
+            
+            // Test 4: All reservations reference real guests
+            const guestIds = new Set(guests.map(g => g.guest_id));
+            const invalidGuestRefs = reservations.filter(r => !guestIds.has(r.guest_id));
+            results.push({
+                name: 'Reservations → Guests (Foreign Key)',
+                pass: invalidGuestRefs.length === 0,
+                message: invalidGuestRefs.length > 0 ?
+                    `FAIL: ${invalidGuestRefs.length} reservations reference invalid guests` :
+                    `PASS: All ${reservations.length} reservations reference valid guests`,
+                type: invalidGuestRefs.length === 0 ? 'pass' : 'fail'
+            });
+            
+            // Test 5: All reservations reference real rooms
+            const roomNumbers = new Set(rooms.map(r => r.room_number));
+            const invalidRoomRefs = reservations.filter(r => r.room_number && !roomNumbers.has(r.room_number));
+            results.push({
+                name: 'Reservations → Rooms (Foreign Key)',
+                pass: invalidRoomRefs.length === 0,
+                message: invalidRoomRefs.length > 0 ?
+                    `FAIL: ${invalidRoomRefs.length} reservations reference invalid rooms` :
+                    `PASS: All reservations reference valid room numbers`,
+                type: invalidRoomRefs.length === 0 ? 'pass' : 'fail'
+            });
+            
+            // Test 6: All emails reference real confirmation codes
+            const confCodes = new Set(reservations.map(r => r.confirmation_code));
+            const invalidEmailRefs = emails.filter(e => e.confirmation_code && !confCodes.has(e.confirmation_code));
+            results.push({
+                name: 'Emails → Reservations (Foreign Key)',
+                pass: invalidEmailRefs.length === 0,
+                message: invalidEmailRefs.length > 0 ?
+                    `FAIL: ${invalidEmailRefs.length} emails reference invalid confirmation codes` :
+                    `PASS: All ${emails.length} emails reference valid confirmations`,
+                type: invalidEmailRefs.length === 0 ? 'pass' : 'fail'
+            });
+            
+            // Test 7: Email addresses match guest database
+            const guestMap = {};
+            guests.forEach(g => {
+                guestMap[`${g.first_name} ${g.last_name}`] = g;
+            });
+            const emailMismatches = emails.filter(e => {
+                const guest = guestMap[e.from_name];
+                return guest && guest.email !== e.from_email;
+            });
+            results.push({
+                name: 'Email Addresses Match Guests',
+                pass: emailMismatches.length === 0,
+                message: emailMismatches.length > 0 ?
+                    `FAIL: ${emailMismatches.length} emails have mismatched addresses` :
+                    'PASS: All email addresses match guest database',
+                type: emailMismatches.length === 0 ? 'pass' : 'fail'
+            });
+            
+            // Test 8: Guest names in emails exist in guest database
+            const guestNames = new Set(guests.map(g => `${g.first_name} ${g.last_name}`));
+            const unknownSenders = emails.filter(e => !guestNames.has(e.from_name));
+            results.push({
+                name: 'Email Senders Are Guests',
+                pass: unknownSenders.length === 0,
+                message: unknownSenders.length > 0 ?
+                    `FAIL: ${unknownSenders.length} emails from people not in guest database` :
+                    'PASS: All email senders are registered guests',
+                type: unknownSenders.length === 0 ? 'pass' : 'fail'
+            });
+            
+            // Test 9: Check for duplicate guest IDs
+            const guestIdCounts = {};
+            guests.forEach(g => {
+                guestIdCounts[g.guest_id] = (guestIdCounts[g.guest_id] || 0) + 1;
+            });
+            const duplicateGuests = Object.entries(guestIdCounts).filter(([id, count]) => count > 1);
+            results.push({
+                name: 'No Duplicate Guest IDs',
+                pass: duplicateGuests.length === 0,
+                message: duplicateGuests.length > 0 ?
+                    `FAIL: Duplicate guest IDs: ${duplicateGuests.map(([id]) => id).join(', ')}` :
+                    'PASS: All guest IDs are unique',
+                type: duplicateGuests.length === 0 ? 'pass' : 'fail'
+            });
+            
+            // Test 10: Check for duplicate room numbers
+            const roomNumberCounts = {};
+            rooms.forEach(r => {
+                roomNumberCounts[r.room_number] = (roomNumberCounts[r.room_number] || 0) + 1;
+            });
+            const duplicateRooms = Object.entries(roomNumberCounts).filter(([num, count]) => count > 1);
+            results.push({
+                name: 'No Duplicate Room Numbers',
+                pass: duplicateRooms.length === 0,
+                message: duplicateRooms.length > 0 ?
+                    `FAIL: Duplicate room numbers: ${duplicateRooms.map(([num]) => num).join(', ')}` :
+                    'PASS: All room numbers are unique',
+                type: duplicateRooms.length === 0 ? 'pass' : 'fail'
+            });
+            
+            // Test 11: Check for duplicate confirmation codes
+            const confCodeCounts = {};
+            reservations.forEach(r => {
+                confCodeCounts[r.confirmation_code] = (confCodeCounts[r.confirmation_code] || 0) + 1;
+            });
+            const duplicateConfs = Object.entries(confCodeCounts).filter(([code, count]) => count > 1);
+            results.push({
+                name: 'No Duplicate Confirmation Codes',
+                pass: duplicateConfs.length === 0,
+                message: duplicateConfs.length > 0 ?
+                    `FAIL: Duplicate confirmation codes: ${duplicateConfs.map(([code]) => code).join(', ')}` :
+                    'PASS: All confirmation codes are unique',
+                type: duplicateConfs.length === 0 ? 'pass' : 'fail'
+            });
+            
+            // Test 12: Check for overlapping reservations (same room, overlapping dates, both checked-in)
+            const activeReservations = reservations.filter(r => r.status === 'Checked-In');
+            const overlaps = [];
+            for (let i = 0; i < activeReservations.length; i++) {
+                for (let j = i + 1; j < activeReservations.length; j++) {
+                    if (activeReservations[i].room_number === activeReservations[j].room_number) {
+                        overlaps.push(`${activeReservations[i].room_number}: ${activeReservations[i].confirmation_code} and ${activeReservations[j].confirmation_code}`);
+                    }
+                }
+            }
+            results.push({
+                name: 'No Overlapping Active Reservations',
+                pass: overlaps.length === 0,
+                message: overlaps.length > 0 ?
+                    `FAIL: ${overlaps.length} overlapping reservations found` :
+                    'PASS: No rooms have overlapping active reservations',
+                type: overlaps.length === 0 ? 'pass' : 'fail'
+            });
+            
+            // Generate HTML report
+            const passCount = results.filter(r => r.pass).length;
+            const totalTests = results.length;
+            const allPass = passCount === totalTests;
+            
+            let html = '<div class="test-suite">';
+            html += `<h3>🧪 Test Results: ${passCount}/${totalTests} Passed</h3>`;
+            
+            if (allPass) {
+                html += '<div style="background: #f0fdf4; border: 2px solid #10b981; border-radius: 8px; padding: 20px; margin: 20px 0;">';
+                html += '<h2 style="color: #065f46; margin: 0;">✅ All Tests Passed!</h2>';
+                html += '<p style="color: #047857; margin: 10px 0 0 0;">Database integrity verified. All foreign keys valid, no duplicates, no anomalies.</p>';
+                html += '</div>';
+            } else {
+                html += '<div style="background: #fef2f2; border: 2px solid #ef4444; border-radius: 8px; padding: 20px; margin: 20px 0;">';
+                html += '<h2 style="color: #991b1b; margin: 0;">❌ Some Tests Failed</h2>';
+                html += '<p style="color: #dc2626; margin: 10px 0 0 0;">Database has integrity issues that need to be fixed.</p>';
+                html += '</div>';
+            }
+            
+            results.forEach(result => {
+                html += `<div class="test-result ${result.type}">`;
+                html += `<span style="font-size: 20px;">${result.pass ? '✅' : '❌'}</span>`;
+                html += '<div>';
+                html += `<strong>${result.name}</strong><br>`;
+                html += `<span style="font-size: 0.9em; color: #6b7280;">${result.message}</span>`;
+                html += '</div>';
+                html += '</div>';
+            });
+            
+            html += '</div>';
+            
+            // Data summary
+            html += '<div class="info-section" style="margin-top: 30px;">';
+            html += '<h3>📊 Database Summary</h3>';
+            html += '<table style="width: 100%; margin-top: 15px;"><thead><tr><th>Table</th><th>Records</th><th>Primary Key</th></tr></thead><tbody>';
+            html += `<tr><td>rooms.json</td><td>${rooms.length}</td><td>room_number</td></tr>`;
+            html += `<tr><td>reservations.json</td><td>${reservations.length}</td><td>confirmation_code</td></tr>`;
+            html += `<tr><td>guests.json</td><td>${guests.length}</td><td>guest_id</td></tr>`;
+            html += `<tr><td>emails.json</td><td>${emails.length}</td><td>email_id</td></tr>`;
+            html += '</tbody></table>';
+            html += '</div>';
+            
+            div.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

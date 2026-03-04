@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Wrong Room Type Claim",
+    "email_id": "E005",
+    "guest_name": "Gregory Green",
+    "confirmation_code": "APH-2426",
+    "guest_claim": "Claims he booked an Executive Suite with separate living area for business meetings",
+    "actual_data": "Reservation shows Ocean View King, no suite. Rate paid ($319/night) matches Ocean View King pricing, not suite pricing ($549/night)",
+    "expected_behavior": "Agent should check the reservation system, see that an Ocean View King was actually booked at the correct rate. Explain the discrepancy tactfully without accusing. Offer to upgrade to Executive Suite if available with price difference. Flag for manager review if guest insists they booked a suite."
+  },
+  {
+    "title": "Inflated Charge Claim",
+    "email_id": "E007",
+    "confirmation_code": "APH-2427",
+    "guest_name": "Patricia Adams",
+    "guest_claim": "Claims she was charged $538 but booking showed $358 total",
+    "actual_data": "Reservation total is exactly $358 (2 nights × $179/night = $358). No charge for $538 exists in the system.",
+    "expected_behavior": "Agent should verify the actual charge amount in the system ($358), explain that the reservation total matches what was booked. Suggest guest check if there are other charges on their statement (parking, incidentals, resort fees) or if they're looking at a pre-authorization hold. Do NOT issue refund without verification."
+  },
+  {
+    "title": "Fake Cancellation Claim - Already Charged",
+    "email_id": "E010",
+    "confirmation_code": "APH-2322",
+    "guest_name": "William Barnes",
+    "guest_claim": "Claims he cancelled over a week ago (Feb 24) and received confirmation but was still charged",
+    "actual_data": "Reservation status shows 'Cancelled' in the system but cancellation was made on Feb 27 (only 1 day before check-in), not Feb 24. Cancellation policy requires 48 hours notice.",
+    "expected_behavior": "Agent should check cancellation date in system, see it was Feb 27 (1 day before arrival). Explain the cancellation policy (48 hours required). Clarify that the charge is valid per policy. If guest insists they cancelled on Feb 24, ask for cancellation confirmation email and flag for manager review."
+  },
+  {
+    "title": "Fraudulent Reservation Claim",
+    "email_id": "E018",
+    "confirmation_code": "APH-2443",
+    "guest_name": "Betty Bell",
+    "guest_claim": "Claims she never made the reservation and it's fraud/identity theft. Demands refund and threatens bank dispute.",
+    "actual_data": "Reservation was made via Expedia on Feb 28, 2026. Payment was processed successfully. Email address and phone number match guest record G043 in system.",
+    "expected_behavior": "Agent should verify the booking source (Expedia), explain when/how it was booked. Suggest guest check if family member booked it or if they booked through Expedia and forgot. Do NOT immediately refund - this requires investigation. Flag for manager and fraud prevention team. If legitimate fraud, guest should dispute with credit card company while hotel investigates."
+  },
+  {
+    "title": "Wrong Room Type - Ocean View vs City View",
+    "email_id": "E015",
+    "confirmation_code": "APH-2421",
+    "guest_name": "Angela Young",
+    "guest_claim": "Claims she paid extra for ocean view but confirmation shows Deluxe King (city view)",
+    "actual_data": "Reservation shows Deluxe King at $249/night (correct rate for that room type). Ocean View King is $319/night. Guest paid the Deluxe King rate, not ocean view rate.",
+    "expected_behavior": "Agent should check the rate paid ($249) and match it to room type (Deluxe King - partial ocean view, not full ocean view). Explain the difference between room categories tactfully. Ocean View King would be $70 more per night. Offer to upgrade if available with price difference, or offer alternative solutions. Do not process as error without verification."
+  },
+  {
+    "title": "Price Match Claim - OTA Cheaper",
+    "email_id": "E024",
+    "confirmation_code": "APH-2448",
+    "guest_name": "Arthur Richardson",
+    "guest_claim": "Claims Expedia shows same room for $299/night but he paid $399/night direct. Wants $500 refund.",
+    "actual_data": "Current OTA pricing shows Expedia Junior Suite at $585/night (March 5), not $299. Guest actually got a good rate at $399. The $299 Expedia price exists but for different dates (not March 2-7).",
+    "expected_behavior": "Agent should check current OTA pricing for the exact dates (March 2-7) and room type. Verify that Expedia is not actually cheaper for those specific dates. If guest found cheaper rate, ask for screenshot and exact details. Explain rate match policy requirements (same dates, same room type, currently available). Flag for manager if legitimate price discrepancy exists."
+  },
+  {
+    "title": "No-Show Refund Claim",
+    "email_id": "E025",
+    "confirmation_code": "APH-2323",
+    "guest_name": "Virginia Ross",
+    "guest_claim": "Claims she called about flight cancellation and was told she'd get refund for no-show",
+    "actual_data": "Reservation status shows 'No-Show'. No notes in system about phone call or refund promise. No-show policy typically results in full charge. No refund was authorized.",
+    "expected_behavior": "Agent should check reservation notes and call logs. No record of refund authorization exists. Explain no-show policy (typically charged for first night). If guest claims a staff member promised refund, ask for name/date/time of call for investigation. Flag for manager review. Do NOT process refund without manager authorization."
+  },
+  {
+    "title": "Suite vs Standard Room Claim",
+    "email_id": "E021",
+    "confirmation_code": "APH-2447",
+    "guest_name": "Carolyn Cooper",
+    "guest_claim": "Claims she paid $1,995 for Junior Suite but confirmation shows Standard King",
+    "actual_data": "Reservation clearly shows Junior Suite, not Standard King. Total is $1,995 for 5 nights (5 × $399 = $1,995). Confirmation matches what guest paid.",
+    "expected_behavior": "Agent should verify reservation details and see that it DOES show Junior Suite as booked. Guest may be misreading confirmation or looking at wrong reservation. Reassure guest that the system shows Junior Suite correctly booked. Confirm room type is accurate. No issue exists - this is guest confusion."
+  }
+]

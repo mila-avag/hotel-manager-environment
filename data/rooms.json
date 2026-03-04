@@ -1,0 +1,482 @@
+[
+  {
+    "room_number": "101",
+    "room_type": "Standard King",
+    "floor": 1,
+    "beds": "1 King",
+    "view": "City",
+    "base_rate": 189
+  },
+  {
+    "room_number": "102",
+    "room_type": "Standard Double",
+    "floor": 1,
+    "beds": "2 Double",
+    "view": "City",
+    "base_rate": 179
+  },
+  {
+    "room_number": "103",
+    "room_type": "Standard King",
+    "floor": 1,
+    "beds": "1 King",
+    "view": "City",
+    "base_rate": 189
+  },
+  {
+    "room_number": "104",
+    "room_type": "Standard Double",
+    "floor": 1,
+    "beds": "2 Double",
+    "view": "City",
+    "base_rate": 179
+  },
+  {
+    "room_number": "105",
+    "room_type": "Deluxe King",
+    "floor": 1,
+    "beds": "1 King",
+    "view": "Partial Ocean",
+    "base_rate": 249
+  },
+  {
+    "room_number": "106",
+    "room_type": "Deluxe King",
+    "floor": 1,
+    "beds": "1 King",
+    "view": "Partial Ocean",
+    "base_rate": 249
+  },
+  {
+    "room_number": "107",
+    "room_type": "Standard King",
+    "floor": 1,
+    "beds": "1 King",
+    "view": "City",
+    "base_rate": 189
+  },
+  {
+    "room_number": "108",
+    "room_type": "Standard Double",
+    "floor": 1,
+    "beds": "2 Double",
+    "view": "City",
+    "base_rate": 179
+  },
+  {
+    "room_number": "109",
+    "room_type": "Standard King",
+    "floor": 1,
+    "beds": "1 King",
+    "view": "City",
+    "base_rate": 189
+  },
+  {
+    "room_number": "110",
+    "room_type": "Standard Double",
+    "floor": 1,
+    "beds": "2 Double",
+    "view": "City",
+    "base_rate": 179
+  },
+  {
+    "room_number": "201",
+    "room_type": "Deluxe King",
+    "floor": 2,
+    "beds": "1 King",
+    "view": "Partial Ocean",
+    "base_rate": 249
+  },
+  {
+    "room_number": "202",
+    "room_type": "Deluxe Double",
+    "floor": 2,
+    "beds": "2 Double",
+    "view": "Partial Ocean",
+    "base_rate": 239
+  },
+  {
+    "room_number": "203",
+    "room_type": "Deluxe King",
+    "floor": 2,
+    "beds": "1 King",
+    "view": "Partial Ocean",
+    "base_rate": 249
+  },
+  {
+    "room_number": "204",
+    "room_type": "Deluxe Double",
+    "floor": 2,
+    "beds": "2 Double",
+    "view": "Partial Ocean",
+    "base_rate": 239
+  },
+  {
+    "room_number": "205",
+    "room_type": "Ocean View King",
+    "floor": 2,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "206",
+    "room_type": "Ocean View King",
+    "floor": 2,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "207",
+    "room_type": "Deluxe King",
+    "floor": 2,
+    "beds": "1 King",
+    "view": "Partial Ocean",
+    "base_rate": 249
+  },
+  {
+    "room_number": "208",
+    "room_type": "Deluxe Double",
+    "floor": 2,
+    "beds": "2 Double",
+    "view": "Partial Ocean",
+    "base_rate": 239
+  },
+  {
+    "room_number": "209",
+    "room_type": "Ocean View King",
+    "floor": 2,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "210",
+    "room_type": "Deluxe King",
+    "floor": 2,
+    "beds": "1 King",
+    "view": "Partial Ocean",
+    "base_rate": 249
+  },
+  {
+    "room_number": "301",
+    "room_type": "Ocean View King",
+    "floor": 3,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "302",
+    "room_type": "Ocean View Double",
+    "floor": 3,
+    "beds": "2 Double",
+    "view": "Ocean",
+    "base_rate": 309
+  },
+  {
+    "room_number": "303",
+    "room_type": "Ocean View King",
+    "floor": 3,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "304",
+    "room_type": "Ocean View Double",
+    "floor": 3,
+    "beds": "2 Double",
+    "view": "Ocean",
+    "base_rate": 309
+  },
+  {
+    "room_number": "305",
+    "room_type": "Junior Suite",
+    "floor": 3,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "306",
+    "room_type": "Ocean View King",
+    "floor": 3,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "307",
+    "room_type": "Ocean View King",
+    "floor": 3,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "308",
+    "room_type": "Junior Suite",
+    "floor": 3,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "309",
+    "room_type": "Ocean View King",
+    "floor": 3,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "310",
+    "room_type": "Ocean View Double",
+    "floor": 3,
+    "beds": "2 Double",
+    "view": "Ocean",
+    "base_rate": 309
+  },
+  {
+    "room_number": "401",
+    "room_type": "Junior Suite",
+    "floor": 4,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "402",
+    "room_type": "Junior Suite",
+    "floor": 4,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "403",
+    "room_type": "Ocean View King",
+    "floor": 4,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "404",
+    "room_type": "Ocean View King",
+    "floor": 4,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "405",
+    "room_type": "Executive Suite",
+    "floor": 4,
+    "beds": "1 King + Living Room",
+    "view": "Ocean",
+    "base_rate": 549
+  },
+  {
+    "room_number": "406",
+    "room_type": "Junior Suite",
+    "floor": 4,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "407",
+    "room_type": "Junior Suite",
+    "floor": 4,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "408",
+    "room_type": "Ocean View King",
+    "floor": 4,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "409",
+    "room_type": "Junior Suite",
+    "floor": 4,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "410",
+    "room_type": "Executive Suite",
+    "floor": 4,
+    "beds": "1 King + Living Room",
+    "view": "Ocean",
+    "base_rate": 549
+  },
+  {
+    "room_number": "501",
+    "room_type": "Executive Suite",
+    "floor": 5,
+    "beds": "1 King + Living Room",
+    "view": "Ocean",
+    "base_rate": 549
+  },
+  {
+    "room_number": "502",
+    "room_type": "Executive Suite",
+    "floor": 5,
+    "beds": "1 King + Living Room",
+    "view": "Ocean",
+    "base_rate": 549
+  },
+  {
+    "room_number": "503",
+    "room_type": "Junior Suite",
+    "floor": 5,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "504",
+    "room_type": "Junior Suite",
+    "floor": 5,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "505",
+    "room_type": "Presidential Suite",
+    "floor": 5,
+    "beds": "2 King + Living + Dining",
+    "view": "Panoramic Ocean",
+    "base_rate": 899
+  },
+  {
+    "room_number": "506",
+    "room_type": "Junior Suite",
+    "floor": 5,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "507",
+    "room_type": "Executive Suite",
+    "floor": 5,
+    "beds": "1 King + Living Room",
+    "view": "Ocean",
+    "base_rate": 549
+  },
+  {
+    "room_number": "508",
+    "room_type": "Junior Suite",
+    "floor": 5,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "509",
+    "room_type": "Executive Suite",
+    "floor": 5,
+    "beds": "1 King + Living Room",
+    "view": "Ocean",
+    "base_rate": 549
+  },
+  {
+    "room_number": "510",
+    "room_type": "Executive Suite",
+    "floor": 5,
+    "beds": "1 King + Living Room",
+    "view": "Ocean",
+    "base_rate": 549
+  },
+  {
+    "room_number": "601",
+    "room_type": "Executive Suite",
+    "floor": 6,
+    "beds": "1 King + Living Room",
+    "view": "Ocean",
+    "base_rate": 549
+  },
+  {
+    "room_number": "602",
+    "room_type": "Junior Suite",
+    "floor": 6,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "603",
+    "room_type": "Junior Suite",
+    "floor": 6,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "604",
+    "room_type": "Ocean View King",
+    "floor": 6,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "605",
+    "room_type": "Ocean View King",
+    "floor": 6,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "606",
+    "room_type": "Junior Suite",
+    "floor": 6,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "607",
+    "room_type": "Executive Suite",
+    "floor": 6,
+    "beds": "1 King + Living Room",
+    "view": "Ocean",
+    "base_rate": 549
+  },
+  {
+    "room_number": "608",
+    "room_type": "Junior Suite",
+    "floor": 6,
+    "beds": "1 King + Sofa",
+    "view": "Ocean",
+    "base_rate": 399
+  },
+  {
+    "room_number": "609",
+    "room_type": "Ocean View King",
+    "floor": 6,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  },
+  {
+    "room_number": "610",
+    "room_type": "Ocean View King",
+    "floor": 6,
+    "beds": "1 King",
+    "view": "Ocean",
+    "base_rate": 319
+  }
+]
