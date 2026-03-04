@@ -894,5 +894,61 @@
     "booking_source": "Booking.com",
     "special_requests": null,
     "total_amount": 717
+  },
+  {
+    "confirmation_code": "APH-2501",
+    "guest_name": "Patrick O'Brien",
+    "guest_id": "G001",
+    "room_number": "201",
+    "room_type": "Deluxe King",
+    "check_in_date": "2026-03-15",
+    "check_out_date": "2026-03-18",
+    "status": "Confirmed",
+    "rate_per_night": 279,
+    "booking_source": "Booking.com",
+    "special_requests": "High floor preferred",
+    "total_amount": 837
+  },
+  {
+    "confirmation_code": "APH-2502",
+    "guest_name": "Kelly Murphy",
+    "guest_id": "G005",
+    "room_number": "201",
+    "room_type": "Deluxe King",
+    "check_in_date": "2026-03-16",
+    "check_out_date": "2026-03-19",
+    "status": "Confirmed",
+    "rate_per_night": 299,
+    "booking_source": "Expedia",
+    "special_requests": null,
+    "total_amount": 897
+  },
+  {
+    "confirmation_code": "APH-2503",
+    "guest_name": "Sean McCarthy",
+    "guest_id": "G010",
+    "room_number": "305",
+    "room_type": "Ocean View King",
+    "check_in_date": "2026-03-14",
+    "check_out_date": "2026-03-17",
+    "status": "Confirmed",
+    "rate_per_night": 449,
+    "booking_source": "Direct Website",
+    "special_requests": "Late checkout if possible",
+    "total_amount": 1347
+  },
+  {
+    "confirmation_code": "APH-2504",
+    "guest_name": "Bridget Ryan",
+    "guest_id": "G015",
+    "room_number": "305",
+    "room_type": "Ocean View King",
+    "check_in_date": "2026-03-16",
+    "check_out_date": "2026-03-18",
+    "status": "Confirmed",
+    "rate_per_night": 469,
+    "booking_source": "Hotels.com",
+    "special_requests": "Celebrating anniversary",
+    "total_amount": 938
   }
 ]

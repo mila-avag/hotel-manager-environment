@@ -515,10 +515,10 @@
                 </div>
                 
                 <div class="warning-box">
-                    <h3>⚠️ Critical Alerts (Last 24 Hours)</h3>
-                    <ul style="margin-left: 20px;">
-                        <li><strong>Overbooking Risk:</strong> March 15-17 (St. Patrick's Day weekend) — 62 reservations for 60 rooms</li>
-                        <li><strong>Pricing Discrepancy:</strong> Booking.com showing $199/night for Ocean View Suite, direct site shows $349</li>
+                    <h3>⚠️ Critical Alerts</h3>
+                    <div id="critical-alerts-content">
+                        <p style="color: #6b7280; font-style: italic;">Loading alerts...</p>
+                    </div>
                         <li><strong>Late Cancellations:</strong> 3 cancellations within 24 hours of arrival (policy violation)</li>
                         <li><strong>OTA Commission Spike:</strong> Expedia bookings up 40%, eating into margins</li>
                     </ul>
@@ -623,8 +623,91 @@
             }
         }
         
-        // Load dashboard stats when page loads
-        window.addEventListener('DOMContentLoaded', loadDashboardStats);
+        // Load critical alerts dynamically
+        async function loadCriticalAlerts() {
+            try {
+                const [reservationsRes, otaPricingRes] = await Promise.all([
+                    fetch('data/reservations.json'),
+                    fetch('data/ota_pricing.json')
+                ]);
+                const reservations = await reservationsRes.json();
+                const otaPricing = await otaPricingRes.json();
+                
+                let alerts = [];
+                
+                // Check for overbookings (overlapping reservations for same room)
+                const confirmedReservations = reservations.filter(r => r.status === 'Confirmed' || r.status === 'Checked-In');
+                const roomBookings = {};
+                
+                confirmedReservations.forEach(res => {
+                    if (!roomBookings[res.room_number]) {
+                        roomBookings[res.room_number] = [];
+                    }
+                    roomBookings[res.room_number].push(res);
+                });
+                
+                // Detect overlaps
+                for (const [roomNumber, bookings] of Object.entries(roomBookings)) {
+                    if (bookings.length > 1) {
+                        for (let i = 0; i < bookings.length; i++) {
+                            for (let j = i + 1; j < bookings.length; j++) {
+                                const res1 = bookings[i];
+                                const res2 = bookings[j];
+                                
+                                const start1 = new Date(res1.check_in_date);
+                                const end1 = new Date(res1.check_out_date);
+                                const start2 = new Date(res2.check_in_date);
+                                const end2 = new Date(res2.check_out_date);
+                                
+                                // Check if dates overlap
+                                if (start1 < end2 && start2 < end1) {
+                                    alerts.push({
+                                        type: 'overbooking',
+                                        severity: 'critical',
+                                        message: `<strong>Overbooking Risk - Room ${roomNumber}:</strong> ${res1.confirmation_code} (${res1.check_in_date} to ${res1.check_out_date}) overlaps with ${res2.confirmation_code} (${res2.check_in_date} to ${res2.check_out_date})`
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // Check for pricing discrepancies
+                const discrepancies = otaPricing.filter(p => p.has_discrepancy);
+                discrepancies.forEach(disc => {
+                    alerts.push({
+                        type: 'pricing',
+                        severity: 'warning',
+                        message: `<strong>Pricing Discrepancy - ${disc.room_type} (${disc.date}):</strong> ${disc.discrepancy_note}`
+                    });
+                });
+                
+                // Display alerts
+                const alertsDiv = document.getElementById('critical-alerts-content');
+                if (alerts.length === 0) {
+                    alertsDiv.innerHTML = '<p style="color: #059669;">✅ No critical alerts at this time</p>';
+                } else {
+                    let html = '<ul style="margin-left: 20px;">';
+                    alerts.slice(0, 5).forEach(alert => {
+                        html += `<li>${alert.message}</li>`;
+                    });
+                    html += '</ul>';
+                    if (alerts.length > 5) {
+                        html += `<p style="color: #6b7280; font-style: italic; margin-top: 10px;">${alerts.length - 5} more alert(s)...</p>`;
+                    }
+                    alertsDiv.innerHTML = html;
+                }
+            } catch (error) {
+                console.error('Error loading critical alerts:', error);
+                document.getElementById('critical-alerts-content').innerHTML = '<p style="color: #ef4444;">Error loading alerts</p>';
+            }
+        }
+        
+        // Load dashboard stats and alerts when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            loadDashboardStats();
+            loadCriticalAlerts();
+        });
         
         // Navigation
         function showSection(sectionId) {
@@ -843,8 +926,12 @@
         }
         
         async function loadReports(div) {
-            const res = await fetch('data/occupancy_history.json');
-            const history = await res.json();
+            const [historyRes, reservationsRes] = await Promise.all([
+                fetch('data/occupancy_history.json'),
+                fetch('data/reservations.json')
+            ]);
+            const history = await historyRes.json();
+            const reservations = await reservationsRes.json();
             
             let html = '<div class="info-section"><h3>📈 30-Day Occupancy Trend</h3>';
             html += '<table><thead><tr><th>Date</th><th>Occupancy %</th><th>Rooms Sold</th><th>ADR</th><th>RevPAR</th><th>Revenue</th></tr></thead><tbody>';
@@ -862,12 +949,44 @@
             
             html += '</tbody></table></div>';
             
-            html += '<div class="info-section"><h3>📊 Booking Source Distribution (Last 30 Days)</h3>';
+            // Calculate booking source distribution from actual reservations
+            html += '<div class="info-section"><h3>📊 Booking Source Distribution (All Reservations)</h3>';
+            html += '<p style="margin-bottom: 15px; color: #059669; font-weight: 600;">✨ Calculated from actual reservation data</p>';
             html += '<table><thead><tr><th>Source</th><th>Bookings</th><th>Revenue</th><th>Avg Commission</th></tr></thead><tbody>';
-            html += '<tr><td>Direct Website</td><td>34</td><td>$12,486</td><td>0%</td></tr>';
-            html += '<tr><td>Booking.com</td><td>48</td><td>$16,320</td><td>15%</td></tr>';
-            html += '<tr><td>Expedia</td><td>29</td><td>$9,858</td><td>18%</td></tr>';
-            html += '<tr><td>Hotels.com</td><td>16</td><td>$5,344</td><td>18%</td></tr>';
+            
+            const sourceStats = {};
+            const commissionRates = {
+                'Direct Website': 0,
+                'Booking.com': 15,
+                'Expedia': 18,
+                'Hotels.com': 18
+            };
+            
+            reservations.forEach(res => {
+                const source = res.booking_source;
+                if (!sourceStats[source]) {
+                    sourceStats[source] = {
+                        count: 0,
+                        revenue: 0
+                    };
+                }
+                sourceStats[source].count++;
+                sourceStats[source].revenue += res.total_amount;
+            });
+            
+            // Sort by revenue (descending)
+            const sortedSources = Object.entries(sourceStats).sort((a, b) => b[1].revenue - a[1].revenue);
+            
+            sortedSources.forEach(([source, stats]) => {
+                const commission = commissionRates[source] || 0;
+                html += `<tr>
+                    <td>${source}</td>
+                    <td>${stats.count}</td>
+                    <td>$${stats.revenue.toLocaleString()}</td>
+                    <td>${commission}%</td>
+                </tr>`;
+            });
+            
             html += '</tbody></table></div>';
             
             div.innerHTML = html;
